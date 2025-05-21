@@ -8,50 +8,73 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class GradeCalculator extends JFrame {
-    private JTextField nameField, quiz1Field, quiz2Field, quiz3Field;
+    private JTextField txtName, txtQuiz1, txtQuiz2, txtQuiz3, txtAverage;
+    private JLabel lblName, lblQuiz1, lblQuiz2, lblQuiz3, lblAverage;
     private JButton computeButton;
 
     public GradeCalculator() {
         setTitle("Grade Calculator");
-        setSize(300, 250);
+        setSize(450, 330); // Matches Milestone layout
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
 
-        // Labels and Text Fields
-        JLabel nameLabel = new JLabel("Student Name:");
-        nameLabel.setBounds(10, 10, 100, 25);
-        add(nameLabel);
+        // Layout constants
+        int labelX = 30;
+        int fieldX = 230;
+        int labelWidth = 200;
+        int fieldWidth = 150;
+        int fieldHeight = 25;
+        int spacing = 40;
 
-        nameField = new JTextField();
-        nameField.setBounds(120, 10, 150, 25);
-        add(nameField);
+        // Student Name
+        lblName = new JLabel("Student Name:");
+        lblName.setBounds(labelX, 30, labelWidth, fieldHeight);
+        add(lblName);
 
-        JLabel q1Label = new JLabel("Quiz 1:");
-        q1Label.setBounds(10, 45, 100, 25);
-        add(q1Label);
+        txtName = new JTextField();
+        txtName.setBounds(fieldX, 30, fieldWidth, fieldHeight);
+        add(txtName);
 
-        quiz1Field = new JTextField();
-        quiz1Field.setBounds(120, 45, 150, 25);
-        add(quiz1Field);
+        // Quiz 1
+        lblQuiz1 = new JLabel("Quiz 1:");
+        lblQuiz1.setBounds(labelX, 30 + spacing, labelWidth, fieldHeight);
+        add(lblQuiz1);
 
-        JLabel q2Label = new JLabel("Quiz 2:");
-        q2Label.setBounds(10, 80, 100, 25);
-        add(q2Label);
+        txtQuiz1 = new JTextField();
+        txtQuiz1.setBounds(fieldX, 30 + spacing, fieldWidth, fieldHeight);
+        add(txtQuiz1);
 
-        quiz2Field = new JTextField();
-        quiz2Field.setBounds(120, 80, 150, 25);
-        add(quiz2Field);
+        // Quiz 2
+        lblQuiz2 = new JLabel("Quiz 2:");
+        lblQuiz2.setBounds(labelX, 30 + spacing * 2, labelWidth, fieldHeight);
+        add(lblQuiz2);
 
-        JLabel q3Label = new JLabel("Quiz 3:");
-        q3Label.setBounds(10, 115, 100, 25);
-        add(q3Label);
+        txtQuiz2 = new JTextField();
+        txtQuiz2.setBounds(fieldX, 30 + spacing * 2, fieldWidth, fieldHeight);
+        add(txtQuiz2);
 
-        quiz3Field = new JTextField();
-        quiz3Field.setBounds(120, 115, 150, 25);
-        add(quiz3Field);
+        // Quiz 3
+        lblQuiz3 = new JLabel("Quiz 3:");
+        lblQuiz3.setBounds(labelX, 30 + spacing * 3, labelWidth, fieldHeight);
+        add(lblQuiz3);
 
+        txtQuiz3 = new JTextField();
+        txtQuiz3.setBounds(fieldX, 30 + spacing * 3, fieldWidth, fieldHeight);
+        add(txtQuiz3);
+
+        // Average (output)
+        lblAverage = new JLabel("Average Grade:");
+        lblAverage.setBounds(labelX, 30 + spacing * 4, labelWidth, fieldHeight);
+        add(lblAverage);
+
+        txtAverage = new JTextField();
+        txtAverage.setBounds(fieldX, 30 + spacing * 4, fieldWidth, fieldHeight);
+        txtAverage.setEditable(false);
+        add(txtAverage);
+
+        // Compute Button
         computeButton = new JButton("Compute");
-        computeButton.setBounds(90, 160, 120, 30);
+        computeButton.setBounds((450 - 150) / 2, 30 + spacing * 5, 150, 30);
         add(computeButton);
 
         computeButton.addActionListener(new ActionListener() {
@@ -65,10 +88,10 @@ public class GradeCalculator extends JFrame {
 
     private void computeGrade() {
         try {
-            String name = nameField.getText();
-            float q1 = Float.parseFloat(quiz1Field.getText());
-            float q2 = Float.parseFloat(quiz2Field.getText());
-            float q3 = Float.parseFloat(quiz3Field.getText());
+            String name = txtName.getText();
+            float q1 = Float.parseFloat(txtQuiz1.getText());
+            float q2 = Float.parseFloat(txtQuiz2.getText());
+            float q3 = Float.parseFloat(txtQuiz3.getText());
 
             Student s = new Student();
             s.setStudentName(name);
@@ -77,7 +100,7 @@ public class GradeCalculator extends JFrame {
             s.setQuiz3(q3);
             s.computeAverage();
 
-            new GradeOutput(s);
+            txtAverage.setText(String.format("%.2f", s.getAverageGrade()));
 
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Please enter valid quiz scores.", "Input Error", JOptionPane.ERROR_MESSAGE);
